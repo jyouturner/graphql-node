@@ -1,0 +1,98 @@
+query($skeletonUrl:String, $pageApiUrl:String, $nbatvRundownServiceUrl:String, $radiusCollectionId:String){
+  aggregator(skeletonUrl: $skeletonUrl){
+    meta
+    response{
+      count
+      result{
+        created
+        seoTitle
+        includeTerms
+        seoDescription
+        includeVideos
+        type
+        title
+        uuid
+        content(pageApiUrl:$pageApiUrl){
+          ... on AppBlock {
+              type
+            contentType
+            position
+            headline
+            content{
+              ... on Show{
+                showTitle
+              }
+            }
+            headlineFormat{
+              headlineTextColor
+              handsetBackgroundImage
+              tabletBackgroundImage
+            }
+            externalDataSource
+          }
+          ... on ShowsParagrah{
+            type
+            buttonText
+            position
+            headline
+           content{
+              ... on Show {
+              	type
+              	title
+              	showTitle
+              	showAirTime
+              	showDescription
+              	slateImage{
+                	square
+                	source
+                	landscape
+              	}
+              }
+            }
+          }
+          ... on DrupalCollection{
+            type
+           
+            headline
+            
+            layout
+            
+            
+            content{
+              type
+              title
+              description
+              headline
+              contentXml
+              trt
+              listImage{
+                source
+                portrait
+                landscape
+              }
+            }
+          }
+        }
+        tileDisplayType
+        includeArticles
+        includeVideos
+        brand
+      }
+    }
+    schedule(nbatvRundownServiceUrl:$nbatvRundownServiceUrl){
+      shows{
+        title
+        summary
+        gameDate
+        awayTeam
+        awayTeamId
+        homeTeam
+        homeTeamId
+        status
+        scheduled_timestamp_Eastern
+      	scheduled_timestamp
+      }
+    }
+    vodEpisodes(radiusCollectionId:$radiusCollectionId)
+  }
+}

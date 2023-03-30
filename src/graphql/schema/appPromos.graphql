@@ -1,0 +1,18 @@
+type PromoUnit {
+    name: String
+    enabled: Boolean
+    id:  String
+    type: LinkType
+    filterInEntitlements: [String]!
+    filterOutEntitlements: [String]!
+    backgroundImage(device: String): String
+    backgroundColor: String
+    buttonLabel: String
+    buttonActionURL: String
+    aNonNullableField: String!
+    aNullableField: String
+}
+
+type AppPromos {
+    promos: [PromoUnit]!
+}

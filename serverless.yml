@@ -1,0 +1,114 @@
+service: [org]-lambda-node-service
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${env:EnvDesc}
+  region: ${env:AWS_REGION}
+  environment:
+    EnvDesc: ${self:provider.stage}
+    GraphQLLambdaFunctionName: "[org]-lambda-node-service-${self:provider.stage}-graphql"
+
+#  vpc:
+#    securityGroupIds: { 'Fn::Split': [',', 'Fn::ImportValue': 'nba-lp-regional-env-NbaVpcDefaultSecurityGroup'] }
+#    subnetIds: { 'Fn::Split': [',', 'Fn::ImportValue': 'nba-lp-regional-env-NbaVpcPrivateSubnets'] }
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - lambda:*
+      Resource:
+        - "*"
+        #  arn:aws:lambda:us-east-1:658839415080:function:[org]-lambda-node-service-dev-graphql
+        #- "arn:aws:lambda:${AWS_REGION}}:${env:AWS_ACCOUNT_ID}:function:[org]-lambda-node-service-${self:provider.stage}}-graphql"
+        #- "arn:aws:s3:::nbafp-series-schedule-config-${self:custom.nbadAWSHost.${self:provider.stage}}-${env:AWS_ACCOUNT_ID}-${env:AWS_REGION}"
+      #     - "arn:aws:s3:::nbafp-series-schedule-config-${self:custom.nbadAWSHost.${self:provider.stage}}-${env:AWS_ACCOUNT_ID}-${env:AWS_REGION}/*"
+
+functions:
+  #
+  # demo for all kinds of testing
+  #
+  echo:
+    handler: src/endpoints/echo.handler
+    events:
+      - http:
+          path: /v0/echo/{message}
+          method: get
+      - http:
+          path: /v0/echo
+          method: post
+
+  mobile:
+    handler: src/endpoints/mobileProduct.handler
+    events:
+      - http:
+          path: /mobile/product/check
+          method: post
+  #
+  # GraphQL lambda server, for the purpose of the playground
+  #
+  graphql:
+    handler: src/endpoints/graphqlServer.graphqlHandler
+    events:
+    - http:
+        path: graphql
+        method: post
+        cors: true
+    - http:
+        path: graphql
+        method: get
+        cors: true
+  #
+  # GraphQL API, the rest api to handle client requests and use GraphQL JS to execute GraphQL query
+  #
+  graphqlApi:
+    handler: src/endpoints/graphqlApi.handler
+    events:
+      - http:
+          path: /v0/query
+          method: post
+      - http:
+          path: /v0/query
+          method: get
+      - schedule: 
+          rate: rate(1 minute)
+          input:
+            httpMethod: GET
+            queryStringParameters:
+              device: mobile
+              queryId: appPromos
+              root: appPromos
+          enabled: true
+custom:
+
+  nbadApiHost:
+    dev: "nonprod.nbad.io"
+    int: "nonprod.nbad.io"
+    qa: "nonprod.nbad.io"
+    stage: "nonprod.nbad.io"
+    prod: "prod.nbad.io"
+  nbadAWSHost:
+    dev: "nonprod"
+    int: "nonprod"
+    qa: "nonprod"
+    stage: "nonprod"
+    prod: "prod"
+  nbadApiBasePath:
+    dev: "tpm-lambda-node-app-${self:provider.stage}"
+    int: "tpm-lambda-node-${self:provider.stage}"
+    qa: "tpm-lambda-node-${self:provider.stage}"
+    stage: "tpm-lambda-node-${self:provider.stage}"
+    prod: "tpm-lambda-node"
+  customDomain:
+    domainName: "service-apis-${env:AWS_REGION}.${self:custom.nbadApiHost.${self:provider.stage}}"
+    basePath: "${self:custom.nbadApiBasePath.${self:provider.stage}}"
+    stage: "${self:provider.stage}"
+    hostedZoneId: "${env:AWS_HOSTED_ZONE_ID}"
+    certificateName: '*.${self:custom.nbadApiHost.${self:provider.stage}}'
+    createRoute53Record: false
+    endpointType: 'edge'
+
+plugins:
+  - serverless-offline
+  - serverless-domain-manager

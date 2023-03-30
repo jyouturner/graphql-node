@@ -1,0 +1,9 @@
+#
+# teams, combining teams.json and team config
+# 
+#
+type Team {
+  teamId: String
+  teamCode: String
+
+}

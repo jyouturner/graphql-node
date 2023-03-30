@@ -1,0 +1,62 @@
+#
+#
+#
+type VideoImages{
+  source: String
+}
+#
+#
+#
+type PremiumStream{
+  contentId: String
+  consumptionEntitlementSet:[String]!
+}
+
+#
+#
+#
+enum StreamType {
+  live
+  vod
+}
+#
+# live video stream, including league pass game stream, tnt ot stream, nbatv live stream
+#
+type LiveVideoStream {
+  
+  images: VideoImages
+  title: String
+  shortDescription: String
+  availableStreams: [PremiumStream]!
+  blackout: Boolean
+  type: StreamType
+  requireAuthentication: Boolean
+  videoAccessEntitled: Boolean
+
+}
+
+#
+# Live audio stream
+#
+type LiveAudioStream{
+  title: String
+  shortDescription: String
+  availableStreams: [PremiumStream]!
+  requireAuthentication: Boolean
+  audioAccessEntitled: Boolean
+}
+
+#
+# VOD, including league pass archive, nba tv episodes, recap highlights
+#
+type VOD{
+  contentId: String
+  images: VideoImages
+}
+
+type NBATVVODStream {
+    title: String
+    streamId: String
+    contentId: String
+    consumptionEntitlementSet: [String]!
+}

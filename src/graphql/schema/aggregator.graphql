@@ -1,0 +1,181 @@
+
+
+type Aggregator {
+    meta: JSON
+    response: ContentAPIResponse
+    schedule(nbatvRundownServiceUrl:String): NBATVSchedule
+    vodEpisodes(radiusCollectionId:String): JSON
+  }
+  
+  type ContentAPIResponse{
+    count: Int
+    result: [ContentAPIResult]
+  }
+  
+  type ContentAPIResult {
+    created: String
+    seoDescription: String
+    includeVideos: Boolean
+    mostRecent: Boolean
+    type: String
+    title: String
+    seoTitle: String
+    uuid: String
+    url: String
+    content(pageApiUrl:String): [BodyContent]
+    tileDisplayType: String
+    includeTerms: JSON
+    includeArticles: Boolean
+    excludeTerms: JSON
+    headline: String
+    brand: String
+    changed: String
+  }
+  
+  #
+  # page API payload
+  #
+  
+  union BodyContent = ShowsParagrah | AppBlock | DrupalCollection
+  
+  type ShowsParagrah {
+    buttonText: String
+    isSlicePrivate: Boolean
+    position: String
+    type: String
+    headline: String
+    showOnApp: String
+    content: [AppDataOrShowData]
+  }
+  
+  type AppBlock {
+    showonWeb: String
+    position: String
+    type: String
+    headline: String
+    contentType: String
+    value: String
+    showOnApp: String
+    externalDataSource: String
+    content: [AppDataOrShowData]
+    headlineFormat: HeadlineFormat
+  }
+  
+  type DrupalCollection {
+  
+    type: String
+  
+    uuid: String
+  
+    headline: String
+   
+    position: Int
+    layout: String
+    
+    headlineFormat: HeadlineFormat
+    content: [Video]
+  }
+  
+  union AppDataOrShowData = Show
+  
+  type Show {
+    showAirTime: String
+    showDescription: String
+    showTitle: String
+    franchiseId: String
+    type: String
+    title: String
+    radiusCollectionId: String
+    thumbnailImage: DrupalImage
+    mainImage: DrupalImage
+    slateImage: DrupalImage
+  }
+  
+  type DrupalImage {
+    square: String
+    tile: String
+    source: String
+    portrait: String
+    landscape: String
+  }
+  
+  type HeadlineFormat {
+    logoImage: String
+    tabletBackgroundImage: String
+    headlineTextColor: String
+    handsetBackgroundImage: String
+  }
+  
+  type Video {
+    description: String
+    videoId: String
+    published: String
+    type: String
+    title: String
+    uuid: String
+    url: String
+    shortHeadline: String
+    headline: String
+    apiUri: String
+    contentXml: String
+    trt: Int
+    listImage: DrupalImage
+  }
+  
+  
+  
+  #
+  # NBA TV Rundown Service Payload
+  #
+  type NBATVSchedule {
+    shows: [NBATVRunDownData]
+  }
+  
+
+  #
+  # NBATV Program
+  #
+  type NBATVRunDownData {
+    show_id: String
+    awayTeam: String
+    awayTeamId: String
+    blackout_type: String
+  
+    franchise_id: String
+    franchise_name: String
+    gameDate: Int
+    guide_timestamp: Int
+    homeTeam: String
+    homeTeamId: String
+  
+    live: Boolean
+    scheduled_duration: Int
+    scheduled_timestamp: Int
+  
+    series_id: String
+    series_name: String
+    show_duration: Int
+    show_timestamp: Int
+    sport: String
+    status: String
+    summary: String
+    title: String
+    title_id: String
+    tv_rating: String
+    scheduled_timestamp_Eastern: String
+  
+    images: NBATVRundownShowImages
+  
+    
+  }
+  #
+  # NBA Program Image
+  #
+  type NBATVRundownShowImages {
+    showImage: NBATVRundownShowImage
+  }
+  
+  type NBATVRundownShowImage {
+    type: String
+    source: String
+  }

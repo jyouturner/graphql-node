@@ -1,0 +1,93 @@
+query(
+  $preAuthorizedEntitlements: String
+  $salesSheetUrl: String
+  $device: Device
+) {
+  salesSheetScreen(
+    preAuthorizedEntitlements: $preAuthorizedEntitlements
+    salesSheetUrl: $salesSheetUrl
+    device: $device
+  ) {
+    headerCopy
+    marketingCopy
+    graphicAssets
+    products(device: $device) {
+      enabled
+      readonly
+      name
+      headline
+      cardHeader
+      description
+      popular
+     	purchaseButton{
+        label
+        enabled
+      }
+      type
+      sku {
+        ... on ToggleableCard {
+          type
+          template{
+          	toggleableSkuTemplate
+            toggleableSkuPriceMap
+          }
+          toggles {
+             ... on TermToggle{
+              title
+              description
+              toggleType
+              initialState
+              priceMonthly
+              priceYearly
+              termDisplayMonthly
+              termDisplayYearly
+              readonly
+              productGraphic
+              skuTemplateSubstitutions
+          		}
+            ... on AddOnToggle{
+              title
+              description
+              toggleType
+              initialState
+              priceMonthly
+              priceYearly
+              termDisplayMonthly
+              termDisplayYearly
+              readonly
+              productGraphic
+              skuTemplateSubstitutions
+          		}
+          }
+        }
+        ... on NonToggleableCard {
+          type
+          price
+          sku
+          productVariant
+        }
+      }
+      features
+    }
+    blackout{
+      headline
+      enabled
+      blackouts{
+        ... on LocalBlackout{
+          type
+          headline
+          teams
+          message
+        }
+        ... on NationalBlackout{
+          type
+          headline
+          broadcasters
+          message
+        }
+      }
+    }
+    compareLeaguePassPackages
+    help
+  }
+}

@@ -1,0 +1,14 @@
+
+
+type Product {
+    name: String
+    qualifier: [String]
+}
+
+
+type SubscriptionsAndUpsell {
+    # the list of subscriptions that user has purchased per entitlements
+    products: [Product]!
+    # the upsell of the specified 'stream type' (ie, leaguepass, nbatv)
+    upsell(playStream:PlayStream, device:String): JSON
+}

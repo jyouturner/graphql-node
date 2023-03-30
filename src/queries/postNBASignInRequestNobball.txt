@@ -1,0 +1,9 @@
+query($preAuthorizedEntitlements:String, $upsellUrl:String, $device:String){
+  postSignInScreen( preAuthorizedEntitlements:$preAuthorizedEntitlements, upsellUrl:$upsellUrl){
+    products{
+      name
+      qualifier
+    }
+    upsell(playStream:nbatv,device:$device)
+  }
+}

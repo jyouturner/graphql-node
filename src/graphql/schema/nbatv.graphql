@@ -1,0 +1,23 @@
+
+#
+# supposedly for the NBA TV VOD stuff, use JSON for now
+#
+type NBATVVODCollection {
+    id: String
+    title: String
+    episodePermissions: [NBATVVODEpisode]!
+}
+
+type NBATVVODEpisode {
+    originalPremiereDate: String
+    duration: Int
+    title: String
+    type: String
+    shortDescription: String
+    availableStreams: [NBATVVODStream]!
+    blackedOut: Boolean
+    requireAuthentication: Boolean
+    images: VideoImages
+}
+
+

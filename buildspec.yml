@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install
+
+  build:
+    commands:
+      - npm run test
+      - npm run test:coverage
+
+  post_build:
+    commands:
+      - npm run package
+      - echo listing the files under .serverless
+      - ls .serverless
+      - echo listing the files in the zip file
+      - unzip -l .serverless/[org]-lambda-node-service.zip
+
+artifacts:
+  files:
+    - .serverless/*
+    #- [org]-lambda-node-service.zip
+    - deployspec.yml
+    - serverless.yml
+    - package.json

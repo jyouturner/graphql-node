@@ -1,0 +1,116 @@
+
+type SalesSheet {
+    headerCopy: JSON
+    marketingCopy: JSON
+    graphicAssets: JSON
+    products(device:Device): [Products]!
+    blackout: Blackouts
+    templatedMessage: JSON
+    compareLeaguePassPackages: JSON
+    help: JSON
+  }
+  
+
+
+  type ToggleValue {
+    on: String
+    off: String
+  }
+  
+  type SkuTemplateSubstitutions {
+    key: String
+    toggleValue: ToggleValue
+  }
+  
+  type TermToggle{
+    title: String
+    description: String
+    productGraphic: String
+    toggleType: String
+    initialState: String
+    priceMonthly: String
+    priceYearly: String
+    termDisplayMonthly: String
+    termDisplayYearly: String
+    readonly: Boolean
+    skuTemplateSubstitutions: JSON
+  }
+
+  type AddOnToggle{
+    title: String
+    description: String
+    productGraphic: String
+    toggleType: String
+    initialState: String
+    priceMonthly: String
+    priceYearly: String
+    termDisplayMonthly: String
+    termDisplayYearly: String
+    readonly: Boolean
+    skuTemplateSubstitutions: JSON
+  }
+
+  union Toggle = TermToggle | AddOnToggle
+  
+  union Skus = ToggleableCard | NonToggleableCard
+
+  type ToggleableCard {
+    type: String
+    template: SkuTemplate
+    toggles: [Toggle]!
+  }
+
+  type SkuTemplate {
+    toggleableSkuTemplate: String
+    toggleableSkuPriceMap: JSON
+  }
+
+  type NonToggleableCard{
+    type: String
+    price: String
+    sku: String
+    productVariant: String
+  }
+
+  
+  type Products {
+    enabled: Boolean
+    headline: String
+    name: String
+    description: String
+    cardHeader: String
+    popular: Boolean
+    readonly: Boolean
+    type: String
+    purchaseButton: PurchaseButton
+    sku: Skus
+
+    features: [String]!
+  }
+
+  type PurchaseButton {
+    label: String
+    enabled: Boolean
+  }
+
+  union Blackout = LocalBlackout | NationalBlackout
+
+  type LocalBlackout {
+    type: String
+    headline: String
+    teams: [String]!
+    message: String
+  }
+
+  type NationalBlackout{
+    type: String
+    headline: String
+    broadcasters: [String]!
+    message: String
+  }
+
+  type Blackouts {
+    headline: String
+    enabled: Boolean
+    blackouts: [Blackout]!
+  }

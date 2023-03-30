@@ -1,0 +1,13 @@
+query($preAuthorizedEntitlements:String, $promoJsonUrl:String, $device:String){
+  appPromos(preAuthorizedEntitlements:$preAuthorizedEntitlements, promoJsonUrl:$promoJsonUrl, device: $device){
+    name
+    enabled
+    id
+    type
+    backgroundImage(device:$device)
+    backgroundColor
+    buttonLabel
+    buttonActionURL
+    whatever
+  }
+}

@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm install -g serverless
+      - npm install serverless-domain-manager --save-dev
+      - npm install serverless-offline --save-dev
+    #  - npm uninstall serverless --save-dev --only=dev
+
+  build:
+    commands:
+      - echo $CODEBUILD_SRC_DIR
+      - ls  -lrt $CODEBUILD_SRC_DIR
+      - cd $CODEBUILD_SRC_DIR
+      - ls -lrt $CODEBUILD_SRC_DIR/.serverless
+      - unzip -l .serverless/*.zip
+      #- cd $CODEBUILD_SRC_DIR/deploy
+      - sls deploy --verbose --package .serverless
+#- npm run $CODEBUILD_SRC_DIR_AppCodeBuild/deploy

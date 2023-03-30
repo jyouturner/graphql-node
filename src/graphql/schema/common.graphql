@@ -1,0 +1,31 @@
+
+
+scalar JSON
+
+enum PlayStream{
+    leaguepass
+    nbatv
+    alternateGateway
+}
+
+
+enum Device{
+    android
+    androidTablet
+    fireTab
+    ios
+    iosTablet
+    roku
+    tvOS
+    aTV
+    fireTV
+    xbox
+    ps4
+
+}
+
+
+enum LinkType{
+  deeplink
+  webview
+}

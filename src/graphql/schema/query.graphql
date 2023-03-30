@@ -1,0 +1,12 @@
+
+
+type Query{
+    # get the data used for Post NBA Sign In. The variables include the URL of the normalizer, the URL
+    # to the Upsell config file, and the user's preAuthoriedEntitlements
+    # note the argument needs to be scalar type String which is the Stringified JSON Array
+    postSignInScreen(preAuthorizedEntitlements:String,upsellUrl:String, device: String):SubscriptionsAndUpsell
+    salesSheetScreen(preAuthorizedEntitlements:String,salesSheetUrl:String, device:Device):SalesSheet
+    aggregator(skeletonUrl:String): Aggregator
+    appPromos(preAuthorizedEntitlements:String, promoJsonUrl:String, device: String): [PromoUnit]!
+    vodEpisodes(radiusCollectionId:String): [JSON]!
+}

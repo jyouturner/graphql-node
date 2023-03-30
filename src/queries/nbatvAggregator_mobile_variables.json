@@ -1,0 +1,6 @@
+{
+    "skeletonUrl": "stub/aggregatorSkeleton.json",
+    "pageApiUrl": "0/league/page/53b7ce92-2904-44d3-9329-711d4763130d",
+    "nbatvRundownServiceUrl": "v1/schedule/rundown?timeMachineEnv=time&days=1",
+    "radiusCollectionId": "3502"
+}
