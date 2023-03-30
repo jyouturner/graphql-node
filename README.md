@@ -29,7 +29,7 @@ We can leverage the serverless "offline" plugin to simulate the Lambda (and API)
 
 For personal use, the serverless framework is enough. For example you can just do "sls deploy" to create the infrastructure provided you have the AWS credentials set up locally. For example, put the "aws_access_key" and "aws_secret_access_key" in the ~/.aws/credentils
 
-In reality, we need to set up the infrastructure at [org]D AWS account, and this is done through the AWS Code Pipeline. In short, there are two files that we use here:
+In reality, we need to set up the infrastructure at our AWS account, and this is done through the AWS Code Pipeline. In short, there are two files that we use here:
 
 * buildspec.yml
 
@@ -94,8 +94,8 @@ Here is a good article that explains the problems and various solutions so far
 GraphQL does not solve all our problems, actually, it likely only solve the "easy" problems. However, introducing GraphQL into our architecture does give us an opportunity to re-think our data strategy and the relationsip between in-house engineering team and partners around the world.
 
 1. We want to give our clients what they need, not what we have. Instead of giving them a huge load of data and ask them to "go-figure", we need to think from outside in: starting from products, rather beginginng from our own positions. If we do it right, we can collectively improve our turn around time and reduce overral cost.
-2. In the case of [org] Digital, there is another opportunity that we can explore. TPM team is uniquely positioned between the clients (Possible, You.I etc) and the Turner engineering teams. By leveraging the declarable GraphQL schema and quries, TPM team can partner with service and front end teams, and mange some of the complesities due to business requirements on various platforms. Techincally this can be done with existing Restful API, but GraphQL play nicely into this vision.
-3. Further, we also want to achieve certain level of operation freedom. [org] products are extremely complicated, and so are the systems behind the scene. During the products development, we constantly need to switch between different environments of the data source, for example, to test [org] TV SCTE-35 trigger, it'd be easier to use the testing loop stream, however, for digital ads, it makes more sense to use the production stream. If we can leverage the GraphQL query variables, we can manage those testing environments must easier, without requiring service team to update their configuration and re-deploy the systems.
+2. In our case, there is another opportunity that we can explore. My team is uniquely positioned between the mobile dev teams and the backend engineering teams. By leveraging the declarable GraphQL schema and quries, my team can partner with service and front end teams, and mange some of the complesities due to business requirements on various platforms. Techincally this can be done with existing Restful API, but GraphQL play nicely into this vision.
+3. Further, we also want to achieve certain level of operation freedom. our products are extremely complicated, and so are the systems behind the scene. During the products development, we constantly need to switch between different environments of the data source, for example, to test SCTE-35 trigger, it'd be easier to use the testing loop stream, however, for digital ads, it makes more sense to use the production stream. If we can leverage the GraphQL query variables, we can manage those testing environments must easier, without requiring service team to update their configuration and re-deploy the systems.
 
 ## the architecture
 
@@ -185,25 +185,25 @@ Requirements:
 
 Given user's entitlements, return to user two piece of information:
 
-    1. what type of subscription that user has, leaguepass or [org]tv or team pass?
+1. what type of subscription that user has?
 
- 2. based on what user try to watch (leaguepass, or [org]tv), return the upsell options if user does not have the appropriate access.
+2. based on what user try to watch, return the upsell options if user does not have the appropriate access.
 
- 3. And mobile apps may have different type of upsell options from connected devices.
+3. And mobile apps may have different type of upsell options from connected devices.
 
 So, the user request will have 3 types of input:
 
    1. user's entitlements
 
-   2. the stream type (leaguepass vs [org]tv) that user intends to play
+   2. the stream type that user intends to play
 
    3. device typles (ios vs android, or mobile vs connected)
 
 And we will use two data sources:
 
-   1. Entitlement Normalizer which translate the incoming entitlements to more strctured products data, for example, multiple entitlements "lpbp", "lpvipnb" are both "leaguepass".
+1. Entitlement Normalizer which translate the incoming entitlements to more strctured products data, for example, multiple entitlements
 
-   2. upsell.json managed by TPM team, where upsell options are listed for each platforms, at <https://[domain>]/mobile/apps/configs/dev/sales_sheets/post[org]SignIn.json
+2. upsell.json managed by my team, where upsell options are listed for each platforms, at <https://[domain>]/mobile/apps/configs/dev/sales_sheets/post[org]SignIn.json
 
 Right now (07/01/2019), we have all the schemas in a single file "src/graphql/schema.graphql", before we implement the modulizing schemas.
 
